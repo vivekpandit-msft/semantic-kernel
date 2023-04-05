@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft. All rights reserved.
 
 import semantic_kernel.memory as memory
+from semantic_kernel.ai.open_ai.services.azure_text_completion import AzureTextCompletion
 from semantic_kernel.configuration.kernel_config import KernelConfig
 from semantic_kernel.kernel_base import KernelBase
 from semantic_kernel.kernel_builder import KernelBuilder
@@ -36,6 +37,7 @@ __all__ = [
     "create_kernel",
     "openai_settings_from_dot_env",
     "azure_openai_settings_from_dot_env",
+    "AzureTextCompletion",
     "extensions",
     "PromptTemplateConfig",
     "PromptTemplate",
