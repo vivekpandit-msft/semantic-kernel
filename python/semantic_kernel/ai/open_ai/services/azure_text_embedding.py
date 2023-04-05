@@ -38,7 +38,7 @@ class AzureTextEmbedding(OpenAITextEmbedding):
     def _setup_open_ai(self) -> Any:
         import openai
 
-        openai.api_type = "azure"
+        openai.api_type = "azure_ad"
         openai.api_key = self._api_key
         openai.api_base = self._endpoint
         openai.api_version = self._api_version
