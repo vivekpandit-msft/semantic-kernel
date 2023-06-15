@@ -17,13 +17,12 @@ from semantic_kernel.semantic_functions.semantic_function_config import (
 )
 from semantic_kernel.settings import (
     KernelSettings,
+    AzureOpenAISettings,
     OpenAISettings,
     load_settings,
 )
 from semantic_kernel.utils.null_logger import NullLogger
-from semantic_kernel.utils.settings import (
-    azure_openai_settings_from_dot_env,
-)
+
 
 # Path to the `python` directory
 PYTHON_REPO_ROOT = Path(__file__).parent.parent
@@ -32,9 +31,9 @@ __all__ = [
     "Kernel",
     "NullLogger",
     "KernelSettings",
+    "AzureOpenAISettings",
     "OpenAISettings",
     "load_settings",
-    "azure_openai_settings_from_dot_env",
     "PromptTemplateConfig",
     "PromptTemplate",
     "ChatPromptTemplate",

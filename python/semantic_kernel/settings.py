@@ -19,6 +19,20 @@ def yaml_config_source(config: pdt.BaseSettings) -> dict[str, str]:
     return safe_load(settings_path.read_text()) if settings_path.exists() else {}
 
 
+class AzureOpenAISettings(pdt.BaseSettings):
+    """Settings to configure the Azure OpenAI API."""
+    
+    api_key: str = pdt.Field(
+        description="Azure OpenAI API key. See: ?",
+    )
+    endpoint: str = pdt.Field(
+        description="Azure OpenAI API endpoint. See: ?",
+    )
+    deployment: str = pdt.Field(
+        description="Azure OpenAI deployment name. See: ?",
+    )
+
+
 class OpenAISettings(pdt.BaseSettings):
     """Settings to configure the OpenAI API."""
 
@@ -65,6 +79,7 @@ class KernelSettings(pdt.BaseSettings):
         description="Path to the directory containing the settings file.",
     )
     openai: OpenAISettings
+    azure_openai: AzureOpenAISettings
 
     class Config:  # type: ignore
         """Pydantic configuration."""

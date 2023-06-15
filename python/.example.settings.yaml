@@ -7,3 +7,7 @@ openai:
   api_type: <OPTIONAL_API_TYPE>
   api_version: <OPTIONAL_API_VERSION>
   endpoint: <OPTIONAL_ENDPOINT>
+azure_openai:
+  api_key: < YOUR_API_KEY >
+  endpoint: <YOUR_ENDPOINT>
+  deployment: <YOUR_DEPLOYMENT_NAME>

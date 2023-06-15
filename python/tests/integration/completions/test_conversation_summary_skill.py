@@ -3,6 +3,7 @@
 import os
 
 import pytest
+from python.tests.conftest import azure_openai_settings
 from test_utils import retry
 
 import semantic_kernel as sk
@@ -18,18 +19,11 @@ async def test_azure_summarize_conversation_using_skill(
 ):
     kernel, chatTranscript = setup_summarize_conversation_using_skill
 
-    if "Python_Integration_Tests" in os.environ:
-        deployment_name = os.environ["AzureOpenAI__DeploymentName"]
-        api_key = os.environ["AzureOpenAI__ApiKey"]
-        endpoint = os.environ["AzureOpenAI__Endpoint"]
-    else:
-        # Load credentials from .env file
-        deployment_name, api_key, endpoint = sk.azure_openai_settings_from_dot_env()
-        deployment_name = "text-davinci-003"
+    azure_openai_settings = sk.load_settings().azure_openai
 
     kernel.add_text_completion_service(
         "text_completion",
-        sk_oai.AzureTextCompletion(deployment_name, endpoint, api_key),
+        sk_oai.AzureTextCompletion(azure_openai_settings.deployment, azure_openai_settings.endpoint, azure_openai_settings.api_key),
     )
 
     conversationSummarySkill = kernel.import_skill(

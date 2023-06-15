@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+from python.tests.conftest import azure_openai_settings
 
 import semantic_kernel as sk
 import semantic_kernel.connectors.ai.open_ai as sk_oai
@@ -14,9 +15,9 @@ service_id = model
 
 # Configure AI service used by the kernel
 if useAzureOpenAI:
-    _, api_key, endpoint = sk.azure_openai_settings_from_dot_env()
+    azure_openai_settings = sk.load_settings().azure_openai
     kernel.add_text_completion_service(
-        service_id, sk_oai.AzureTextCompletion(model, api_key, endpoint)
+        service_id, sk_oai.AzureTextCompletion(model, azure_openai_settings.api_key, azure_openai_settings.endpoint)
     )
 else:
     openai_settings = sk.load_settings().openai
