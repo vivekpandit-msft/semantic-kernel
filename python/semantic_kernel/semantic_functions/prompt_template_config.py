@@ -2,40 +2,38 @@
 
 from dataclasses import dataclass, field
 from typing import List
+import pydantic as pdt
 
 
 @dataclass
-class PromptTemplateConfig:
+class PromptTemplateConfig(pdt.BaseModel):
     @dataclass
-    class CompletionConfig:
-        temperature: float = 0.0
-        top_p: float = 1.0
-        presence_penalty: float = 0.0
-        frequency_penalty: float = 0.0
-        max_tokens: int = 256
-        number_of_responses: int = 1
-        stop_sequences: List[str] = field(default_factory=list)
+    class CompletionConfig(pdt.BaseModel):
+        temperature: float = pdt.Field(0.0, description="The temperature for generating completions.")
+        top_p: float = pdt.Field(1.0, description="The top-p value for generating completions.")
+        presence_penalty: float = pdt.Field(0.0, description="The presence penalty for generating completions.")
+        frequency_penalty: float = pdt.Field(0.0, description="The frequency penalty for generating completions.")
+        max_tokens: int = pdt.Field(256, description="The maximum number of tokens for generating completions.")
+        number_of_responses: int = pdt.Field(1, description="The number of completions to generate.")
+        stop_sequences: List[str] = pdt.Field([], description="The list of stop sequences for generating completions.")
 
     @dataclass
-    class InputParameter:
-        name: str = ""
-        description: str = ""
-        default_value: str = ""
+    class InputParameter(pdt.BaseModel):
+        name: str = pdt.Field("", description="The name of the input parameter.")
+        description: str = pdt.Field("", description="The description of the input parameter.")
+        default_value: str = pdt.Field("", description="The default value of the input parameter.")
 
     @dataclass
-    class InputConfig:
-        parameters: List["PromptTemplateConfig.InputParameter"] = field(
-            default_factory=list
-        )
+    class InputConfig(pdt.BaseModel):
+        parameters: List["PromptTemplateConfig.InputParameter"] = pdt.Field(default_factory=list, description="The list of input parameters.")
 
-    schema: int = 1
-    type: str = "completion"
-    description: str = ""
-    completion: "PromptTemplateConfig.CompletionConfig" = field(
-        default_factory=CompletionConfig
-    )
-    default_services: List[str] = field(default_factory=list)
-    input: "PromptTemplateConfig.InputConfig" = field(default_factory=InputConfig)
+    schema: int = pdt.Field(1)
+    type: str = pdt.Field("completion")
+    description: str = pdt.Field("")
+
+    completion: "PromptTemplateConfig.CompletionConfig" = pdt.Field(default_factory=CompletionConfig)
+    default_services: List[str] = pdt.Field(default_factory=list)
+    input: "PromptTemplateConfig.InputConfig" = pdt.Field(default_factory=InputConfig)
 
     @staticmethod
     def from_dict(data: dict) -> "PromptTemplateConfig":
