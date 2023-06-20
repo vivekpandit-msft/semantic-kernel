@@ -18,8 +18,9 @@ def test_load_settings() -> None:
     """
     settings = load_settings()
     assert isinstance(settings, KernelSettings)
-    assert settings.openai.api_key, "OpenAI API key not set."
-
+    print("settings:", settings)
+    assert settings.openai.api_key or (settings.azure_openai.api_key and settings.azure_openai.endpoint
+                                       and settings.azure_openai.deployment), "Required settings not set."
 
 @pytest.fixture()
 def temp_dotenv_file(dotenv_overrides: t.Dict[str, str]) -> t.Iterator[None]:
@@ -63,6 +64,7 @@ def temp_empty_dotenv_file() -> t.Iterator[None]:
     "dotenv_overrides",
     [
         {"OPENAI__API_KEY": "test", "OPENAI__ORG_ID": "test"},
+        {"AZURE_OPENAI__API_KEY": "test", "AZURE_OPENAI__ENDPOINT": "test", "AZURE_OPENAI__DEPLOYMENT": "test"},
     ],
 )
 @pytest.mark.usefixtures("temp_dotenv_file", "temp_os_environ")
