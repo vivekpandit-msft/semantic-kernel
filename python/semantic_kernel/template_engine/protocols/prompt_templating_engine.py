@@ -1,13 +1,14 @@
 # Copyright (c) Microsoft. All rights reserved.
 
 from typing import List, Optional, Protocol
+import pydantic as pdt
 
 from semantic_kernel.orchestration.context_variables import ContextVariables
 from semantic_kernel.orchestration.sk_context import SKContext
 from semantic_kernel.template_engine.blocks.block import Block
 
 
-class PromptTemplatingEngine(Protocol):
+class PromptTemplatingEngine(pdt.BaseModel, Protocol):
     """
     Prompt templating engine protocol.
     """
