@@ -4,41 +4,39 @@ from dataclasses import dataclass, field
 from typing import List
 import pydantic as pdt
 
+class CompletionConfig(pdt.BaseModel):
+    temperature: float = pdt.Field(0.0, description="The temperature for generating completions.")
+    top_p: float = pdt.Field(1.0, description="The top-p value for generating completions.")
+    presence_penalty: float = pdt.Field(0.0, description="The presence penalty for generating completions.")
+    frequency_penalty: float = pdt.Field(0.0, description="The frequency penalty for generating completions.")
+    max_tokens: int = pdt.Field(256, description="The maximum number of tokens for generating completions.")
+    number_of_responses: int = pdt.Field(1, description="The number of completions to generate.")
+    stop_sequences: List[str] = pdt.Field([], description="The list of stop sequences for generating completions.")
 
-@dataclass
+
+class InputParameter(pdt.BaseModel):
+    name: str = pdt.Field("", description="The name of the input parameter.")
+    description: str = pdt.Field("", description="The description of the input parameter.")
+    default_value: str = pdt.Field("", description="The default value of the input parameter.")
+
+
+class InputConfig(pdt.BaseModel):
+    parameters: List["PromptTemplateConfig.InputParameter"] = pdt.Field(default_factory=list, description="The list of input parameters.")
+
+
 class PromptTemplateConfig(pdt.BaseModel):
-    @dataclass
-    class CompletionConfig(pdt.BaseModel):
-        temperature: float = pdt.Field(0.0, description="The temperature for generating completions.")
-        top_p: float = pdt.Field(1.0, description="The top-p value for generating completions.")
-        presence_penalty: float = pdt.Field(0.0, description="The presence penalty for generating completions.")
-        frequency_penalty: float = pdt.Field(0.0, description="The frequency penalty for generating completions.")
-        max_tokens: int = pdt.Field(256, description="The maximum number of tokens for generating completions.")
-        number_of_responses: int = pdt.Field(1, description="The number of completions to generate.")
-        stop_sequences: List[str] = pdt.Field([], description="The list of stop sequences for generating completions.")
-
-    @dataclass
-    class InputParameter(pdt.BaseModel):
-        name: str = pdt.Field("", description="The name of the input parameter.")
-        description: str = pdt.Field("", description="The description of the input parameter.")
-        default_value: str = pdt.Field("", description="The default value of the input parameter.")
-
-    @dataclass
-    class InputConfig(pdt.BaseModel):
-        parameters: List["PromptTemplateConfig.InputParameter"] = pdt.Field(default_factory=list, description="The list of input parameters.")
-
-    schema: int = pdt.Field(1)
+    schema_alias: int = pdt.Field(1, alias="schema")
     type: str = pdt.Field("completion")
     description: str = pdt.Field("")
 
-    completion: "PromptTemplateConfig.CompletionConfig" = pdt.Field(default_factory=CompletionConfig)
+    completion: "CompletionConfig" = pdt.Field(default_factory=CompletionConfig)
     default_services: List[str] = pdt.Field(default_factory=list)
-    input: "PromptTemplateConfig.InputConfig" = pdt.Field(default_factory=InputConfig)
+    input: "InputConfig" = pdt.Field(default_factory=InputConfig)
 
     @staticmethod
     def from_dict(data: dict) -> "PromptTemplateConfig":
         config = PromptTemplateConfig()
-        config.schema = data.get("schema")
+        config.schema_alias = data.get("schema")
         config.type = data.get("type")
         config.description = data.get("description")
 
