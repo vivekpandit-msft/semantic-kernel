@@ -7,8 +7,13 @@ from semantic_kernel.orchestration.context_variables import ContextVariables
 from semantic_kernel.orchestration.sk_context import SKContext
 from semantic_kernel.template_engine.blocks.block import Block
 
+class PromptTemplatingEngineMeta(type(pdt.BaseModel), type(Protocol)):
+    pass
 
-class PromptTemplatingEngine(pdt.BaseModel, Protocol):
+class PromptTemplatingEngineProtocol(Protocol):
+    pass
+
+class PromptTemplatingEngine(pdt.BaseModel, PromptTemplatingEngineProtocol, metaclass=PromptTemplatingEngineMeta):
     """
     Prompt templating engine protocol.
     """

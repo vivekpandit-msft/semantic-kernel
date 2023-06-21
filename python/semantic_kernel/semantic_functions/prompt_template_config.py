@@ -21,7 +21,7 @@ class InputParameter(pdt.BaseModel):
 
 
 class InputConfig(pdt.BaseModel):
-    parameters: List["PromptTemplateConfig.InputParameter"] = pdt.Field(default_factory=list, description="The list of input parameters.")
+    parameters: List["InputParameter"] = pdt.Field(default_factory=list, description="The list of input parameters.")
 
 
 class PromptTemplateConfig(pdt.BaseModel):
@@ -41,7 +41,7 @@ class PromptTemplateConfig(pdt.BaseModel):
         config.description = data.get("description")
 
         # Some skills may not have all completion parameters defined
-        config.completion = PromptTemplateConfig.CompletionConfig()
+        config.completion = CompletionConfig()
         completion_dict = data["completion"]
         config.completion.temperature = completion_dict.get("temperature")
         config.completion.top_p = completion_dict.get("top_p")
@@ -55,7 +55,7 @@ class PromptTemplateConfig(pdt.BaseModel):
         config.default_services = data.get("default_services", [])
 
         # Some skills may not have input parameters defined
-        config.input = PromptTemplateConfig.InputConfig()
+        config.input = InputConfig()
         config.input.parameters = []
         if data.get("input") is not None:
             for parameter in data["input"]["parameters"]:
@@ -81,7 +81,7 @@ class PromptTemplateConfig(pdt.BaseModel):
                     )
 
                 config.input.parameters.append(
-                    PromptTemplateConfig.InputParameter(
+                    InputParameter(
                         name,
                         description,
                         defaultValue,
