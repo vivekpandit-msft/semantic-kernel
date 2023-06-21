@@ -38,6 +38,7 @@ from semantic_kernel.reliability.retry_mechanism_base import RetryMechanismBase
 from semantic_kernel.semantic_functions.prompt_template import PromptTemplate
 from semantic_kernel.semantic_functions.prompt_template_config import (
     PromptTemplateConfig,
+    CompletionConfig,
 )
 from semantic_kernel.semantic_functions.semantic_function_config import (
     SemanticFunctionConfig,
@@ -709,7 +710,7 @@ class Kernel:
                 else "Generic function, unknown purpose"
             ),
             type="completion",
-            completion=PromptTemplateConfig.CompletionConfig(
+            completion=CompletionConfig(
                 temperature,
                 top_p,
                 presence_penalty,

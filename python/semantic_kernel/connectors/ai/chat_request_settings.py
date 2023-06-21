@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from semantic_kernel.semantic_functions.prompt_template_config import (
         PromptTemplateConfig,
+        CompletionConfig,
     )
 
 
@@ -19,7 +20,7 @@ class ChatRequestSettings:
     max_tokens: int = 256
 
     def update_from_completion_config(
-        self, completion_config: "PromptTemplateConfig.CompletionConfig"
+        self, completion_config: "CompletionConfig"
     ):
         self.temperature = completion_config.temperature
         self.top_p = completion_config.top_p
@@ -30,7 +31,7 @@ class ChatRequestSettings:
 
     @staticmethod
     def from_completion_config(
-        completion_config: "PromptTemplateConfig.CompletionConfig",
+        completion_config: "CompletionConfig",
     ) -> "ChatRequestSettings":
         settings = ChatRequestSettings()
         settings.update_from_completion_config(completion_config)

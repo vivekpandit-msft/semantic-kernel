@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:
     from semantic_kernel.semantic_functions.prompt_template_config import (
         PromptTemplateConfig,
+        CompletionConfig,
     )
 
 
@@ -21,7 +22,7 @@ class CompleteRequestSettings:
     logprobs: int = 0
 
     def update_from_completion_config(
-        self, completion_config: "PromptTemplateConfig.CompletionConfig"
+        self, completion_config: "CompletionConfig"
     ):
         self.temperature = completion_config.temperature
         self.top_p = completion_config.top_p
@@ -33,7 +34,7 @@ class CompleteRequestSettings:
 
     @staticmethod
     def from_completion_config(
-        completion_config: "PromptTemplateConfig.CompletionConfig",
+        completion_config: "CompletionConfig",
     ) -> "CompleteRequestSettings":
         settings = CompleteRequestSettings()
         settings.update_from_completion_config(completion_config)
